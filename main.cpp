@@ -85,7 +85,8 @@ void forwardSelection(int features)
     }
     
     cout << "\nFinished search!! The best feature subset is {";
-    for (auto iterate = best_overall_features.begin(); iterate != best_overall_features.end(); iterate++) { //prints the best feature set
+    for (auto iterate = best_overall_features.begin(); iterate != best_overall_features.end(); iterate++) //prints the best feature set
+    { 
         cout << *iterate;
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
@@ -95,7 +96,7 @@ int main() {
     
     std::vector<double> accuracy;
 
-    system("cls");
+    //system("cls");
     int userInput; 
     cout << "Welcome to the Feature Selection Algorithm \n";
     cout << "Please enter total number of features: ";
