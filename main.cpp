@@ -207,7 +207,7 @@ int main() {
         forwardSelection(userInput);
     }
     else if(userChoice == 2){
-
+        backwardElimination(userInput);
     }
     else{
 
