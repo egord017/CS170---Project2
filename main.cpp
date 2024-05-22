@@ -18,6 +18,7 @@ double evaluation() {
 
 void forwardSelection(int features)
 {
+    cout << "Forward Selection Search \n---------------------------\n";
     set<int> selected_features; //used set but could probably change it to vector if needed, uses begin() and end()
     double best_overall_accuracy = 0.0; //keeps track of highest accuracy %
     set<int> best_overall_features; //keeps track of best feature set {}
@@ -96,6 +97,7 @@ void forwardSelection(int features)
 //Added lines 103-106,117-119,126-132
 void backwardElimination(int features)
 {
+    cout << "Backward Elimination Search \n------------------------------\n";
     set<int> selected_features; // used set but could probably change it to vector if needed, uses begin() and end()
     double best_overall_accuracy = 0.0; // keeps track of highest accuracy %
     set<int> best_overall_features; // keeps track of best feature set {}
@@ -147,31 +149,35 @@ void backwardElimination(int features)
             }
         }
 
-        selected_features = current_best_features; // keeps track of the iterated best feature set
-
-        if (current_best_accuracy > best_overall_accuracy) // updates the overall highest accuracy
+        // Update only if current_best_features is different from selected_features. Used to get rid of the duplicate output emssage
+        if (current_best_features != selected_features) 
         {
-            best_overall_accuracy = current_best_accuracy;
-            best_overall_features = selected_features;
-        }
+            selected_features = current_best_features; // keeps track of the iterated best feature set
 
-        cout << "\nFeature set {";
-        for (auto iterate = selected_features.begin(); iterate != selected_features.end(); iterate++) 
-        {
-            cout << *iterate; // outputs the current set 
-            if (next(iterate) != selected_features.end()) cout << ",";
-        }
+            if (current_best_accuracy > best_overall_accuracy) // updates the overall highest accuracy
+            {
+                best_overall_accuracy = current_best_accuracy;
+                best_overall_features = selected_features;
+            }
 
-        cout << "} was best, accuracy is " ;
-        cout << fixed << setprecision(1) << current_best_accuracy << "%"; // outputs the above sets' accuracy percentage
+            cout << "\nFeature set {";
+            for (auto iterate = selected_features.begin(); iterate != selected_features.end(); iterate++) 
+            {
+                cout << *iterate; // outputs the current set 
+                if (next(iterate) != selected_features.end()) cout << ",";
+            }
 
-        if(current_best_accuracy < best_overall_accuracy) // conditional print statements for if there is an accuracy decrease. mostly just to match the trace formatting
-        {
-            cout << " \n(Warning, Accuracy has decreased!)\n\n";
-        } 
-        else 
-        {
-            cout << "\n\n";
+            cout << "} was best, accuracy is ";
+            cout << fixed << setprecision(1) << current_best_accuracy << "%"; // outputs the above sets' accuracy percentage
+
+            if(current_best_accuracy < best_overall_accuracy) // conditional print statements for if there is an accuracy decrease. mostly just to match the trace formatting
+            {
+                cout << " \n(Warning, Accuracy has decreased!)\n\n";
+            } 
+            else 
+            {
+                cout << "\n\n";
+            }
         }
     }
     
@@ -212,7 +218,7 @@ int main() {
             cin.ignore(10000 , '\n');
             
         }
-        cout << "please choose a number between 1 and 3: ";
+        
 
     } while(userChoice != 1 && userChoice !=2 && userChoice != 3);
     cout << " \n\n\n";
