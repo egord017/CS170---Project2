@@ -4,8 +4,33 @@
 #include <algorithm>
 #include <set>
 #include <iomanip>//added so that we could use fixed and set precision
+#include <fstream>
+#include <sstream>
 
 using namespace std;
+
+vector<vector<double>> getData(string& filename){
+    vector<vector<double>> data;
+    ifstream file(filename);
+    if(!file.is_open()){
+        cerr << "Error: Could not open " << filename << endl;
+        return data;
+    }
+
+    string line;
+    while(getline(file, line)){
+        vector<double> row;
+        stringstream ss(line);
+        double val;
+        while(ss >> val){
+            row.push_back(val);
+        }
+        data.push_back(row);
+    }
+
+    file.close();
+    return data;
+}
 
 double evaluation() {
     random_device rd;
@@ -196,6 +221,9 @@ void backwardElimination(int features)
 int main() {
     
     std::vector<double> accuracy;
+
+    string file = "small-test-dataset.txt";
+    vector<vector<double>> dataSet = getData(file);
 
     //system("cls");
     int userInput; 
