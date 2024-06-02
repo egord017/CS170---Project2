@@ -1,12 +1,9 @@
-
 #include "../header/algorithm.h"
 
 double evaluation() {
     random_device rd;
     mt19937 gen(rd());
-
     uniform_real_distribution<> dis(0.0, 100.0);
-
     return dis(gen);
 }
 
@@ -184,12 +181,11 @@ void forwardSelection(int features)
 
 
 void nearestNeighbor(vector<vector<double>> dataSet) {
-    //first normalize the dataset.
-    vector<vector<double>> normalizedData = normalization(dataSet);
-
-    for (int i = 0; i < normalizedData.size(); i++) { 
-        for (int k = 0; k < normalizedData[i].size(); k++) { 
-            cout << normalizedData[i][k] <<  endl;
+    //vector<int> features = {3,5,7};
+    
+    for(int i = 0; i < dataSet.size(); i++) { 
+        for (int k = 0; k < dataSet[i].size(); k++) { 
+            cout << dataSet[i][k] <<  endl;
         }
     } 
 }
@@ -206,7 +202,7 @@ vector<vector<double>> normalization(vector<vector<double>> dataSet) {
         // initialize the max and min to the first value in the feature dataset.
         max = dataSet[0][i];
         min = dataSet[0][i];
-        cout << i << ". " << endl;
+        //cout << i << ". " << endl;
         
         // for loop increments rows. 
         for (int k = 0; k < dataSet.size(); k++) {
@@ -229,4 +225,17 @@ vector<vector<double>> normalization(vector<vector<double>> dataSet) {
         }
     } 
     return dataSet;
+}
+
+//takes the data points for the features the user selects and finds the euclidean distance
+double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features) 
+{
+    double sum = 0.0;
+    double diff = 0.0;
+    for(int i = 0; i < features.size(); i++) //iterates through each of the selected feature columns
+    {
+        diff = training[i] - testing[i]; // Ex.) x1 -x2
+        sum += diff * diff; // Ex.) (x1 -x2)^2
+    }
+    return sqrt(sum); //gets the square root of the sum   
 }

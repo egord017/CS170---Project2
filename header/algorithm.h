@@ -8,6 +8,7 @@
 #include <set>
 #include <iomanip>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -19,5 +20,6 @@ void nearestNeighbor(vector<vector<double>> dataSet);
 void validator();
 
 vector<vector<double>> normalization(vector<vector<double>> dataSet);
+double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features);
 
 #endif

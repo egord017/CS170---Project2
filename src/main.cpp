@@ -1,4 +1,3 @@
-
 #include "../header/algorithm.h"
 #include <set>
 #include <fstream>
@@ -12,6 +11,9 @@ int main() {
 
     string file = "./txt/small-test-dataset.txt";
     vector<vector<double>> dataSet = getData(file);
+
+    //first normalize the dataset.
+    vector<vector<double>> normalizedData = normalization(dataSet);//use normalized data 
 
     int userInput; 
     cout << "Welcome to the Feature Selection Algorithm \n";
@@ -38,25 +40,26 @@ int main() {
     } while(userChoice != 1 && userChoice !=2 && userChoice != 3 && userChoice != 4);
     cout << " \n\n\n";
 
-    if(userChoice == 1){
+    if(userChoice == 1)
+    {
         forwardSelection(userInput);
     }
-    else if(userChoice == 2){
+    else if(userChoice == 2)
+    {
         backwardElimination(userInput);
     }
-    else if (userChoice == 3) {
-        nearestNeighbor(dataSet);
-    } else if (userChoice == 4) {
-        normalization(dataSet);
-    } else { 
+    else if (userChoice == 3) 
+    {
+        nearestNeighbor(normalizedData); 
+    } 
+    else if (userChoice == 4) 
+    {
+        normalization(normalizedData);
+    } 
+    else 
+    { 
 
     }
-
-    // for(int i = 0; i < 5; i++){
-    //     double rand = evaluation();
-    //     accuracy.push_back(rand);
-    //     cout << rand << endl;
-    // }
 
     return 0;
 }
