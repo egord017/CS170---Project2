@@ -1,4 +1,6 @@
 #include "../header/algorithm.h"
+#include <float.h>
+using namespace std;
 
 double evaluation() {
     random_device rd;
@@ -180,15 +182,37 @@ void forwardSelection(int features)
 
 
 
-void nearestNeighbor(vector<vector<double>> dataSet) {
-    //vector<int> features = {3,5,7};
+// void nearestNeighbor(vector<vector<double>> dataSet) {
+//     //vector<int> features = {3,5,7};
     
-    for(int i = 0; i < dataSet.size(); i++) { 
-        for (int k = 0; k < dataSet[i].size(); k++) { 
-            cout << dataSet[i][k] <<  endl;
+//     for(int i = 0; i < dataSet.size(); i++) { 
+//         for (int k = 0; k < dataSet[i].size(); k++) { 
+//             cout << dataSet[i][k] <<  endl;
+//         }
+//     } 
+// }
+
+int Classifier::Test(vector<double> testInstance) {
+
+    int classLabel = 0;
+    double currentDist = 0;
+    double nearestDist = DBL_MAX; //starting at max double val since we want smallest dist
+
+   for (int i = 0; i < this->trainSet.size(); i++){
+        double currentDist = calculateEuclidDistance(this->trainSet[i], testInstance); //get distance
+
+        if (currentDist < nearestDist){
+            nearestDist = currentDist;
+            classLabel = this->trainSet[i][0];
+            cout << "current shortest distance between TrainingSet ["<< i << "] and TestInstance is " << currentDist  << " with class label " << classLabel << " for trainingSet[i] "<< endl; 
         }
-    } 
+   }
+
+    cout << "Final predicted class label for test instance is " << classLabel << endl;
+    return classLabel;
 }
+
+
 
 // function "converts" values in each feature within the range of 0 and 1.
 // this is done first by finding the min and max values in the feature set and applying the normalization formula.
@@ -228,11 +252,11 @@ vector<vector<double>> normalization(vector<vector<double>> dataSet) {
 }
 
 //takes the data points for the features the user selects and finds the euclidean distance
-double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features) 
+double calculateEuclidDistance(vector<double>& training, vector<double>& testing /*, vector<int>& features*/) 
 {
     double sum = 0.0;
     double diff = 0.0;
-    for(int i = 0; i < features.size(); i++) //iterates through each of the selected feature columns
+    for(int i = 0; i < testing.size(); i++) //iterates through each of the selected feature columns
     {
         diff = training[i] - testing[i]; // Ex.) x1 -x2
         sum += diff * diff; // Ex.) (x1 -x2)^2

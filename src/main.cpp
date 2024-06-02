@@ -50,7 +50,19 @@ int main() {
     }
     else if (userChoice == 3) 
     {
-        nearestNeighbor(normalizedData); 
+        vector <double> test;
+        double x;
+        cout << "Please enter test instance, separate feature values by space (ex: 0.1 0.6 0.7): ";
+        // while (cin >> in) {
+        //     test.push_back(in);
+        // }
+        for(int i = 0; i < userInput; i++){
+            cin >> x;
+            test.push_back(x);
+        }
+
+        Classifier c = Classifier(normalizedData); //This is the Train method
+        c.Test(test);
     } 
     else if (userChoice == 4) 
     {

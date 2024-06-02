@@ -26,4 +26,4 @@ $(EXECUTABLE): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	del -f $(OBJS) $(EXECUTABLE)
+	rem -f $(OBJS) $(EXECUTABLE)
