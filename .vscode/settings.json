@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "ostream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "fstream": "cpp",
+        "random": "cpp",
+        "vector": "cpp",
+        "algorithm": "cpp",
+        "iostream": "cpp"
     }
 }
