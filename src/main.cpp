@@ -4,8 +4,6 @@
 #include <fstream>
 #include <sstream>
 
-using namespace std;
-\
 vector<vector<double>> getData(string& filename);
 
 int main() {
@@ -15,7 +13,6 @@ int main() {
     string file = "./txt/small-test-dataset.txt";
     vector<vector<double>> dataSet = getData(file);
 
-    //system("cls");
     int userInput; 
     cout << "Welcome to the Feature Selection Algorithm \n";
     cout << "Please enter total number of features: ";
@@ -38,9 +35,8 @@ int main() {
         }
         
 
-    } while(userChoice != 1 && userChoice !=2 && userChoice != 3);
+    } while(userChoice != 1 && userChoice !=2 && userChoice != 3 && userChoice != 4);
     cout << " \n\n\n";
-    //system("cls");
 
     if(userChoice == 1){
         forwardSelection(userInput);
@@ -48,7 +44,11 @@ int main() {
     else if(userChoice == 2){
         backwardElimination(userInput);
     }
-    else{
+    else if (userChoice == 3) {
+        nearestNeighbor(dataSet);
+    } else if (userChoice == 4) {
+        normalization(dataSet);
+    } else { 
 
     }
 

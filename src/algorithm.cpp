@@ -1,6 +1,5 @@
 
 #include "../header/algorithm.h"
-using namespace std;
 
 double evaluation() {
     random_device rd;
@@ -10,7 +9,6 @@ double evaluation() {
 
     return dis(gen);
 }
-
 
 void backwardElimination(int features) 
 {
@@ -181,4 +179,54 @@ void forwardSelection(int features)
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
     cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy << "%\n\n";
+}
+
+
+
+void nearestNeighbor(vector<vector<double>> dataSet) {
+    //first normalize the dataset.
+    vector<vector<double>> normalizedData = normalization(dataSet);
+
+    for (int i = 0; i < normalizedData.size(); i++) { 
+        for (int k = 0; k < normalizedData[i].size(); k++) { 
+            cout << normalizedData[i][k] <<  endl;
+        }
+    } 
+}
+
+// function "converts" values in each feature within the range of 0 and 1.
+// this is done first by finding the min and max values in the feature set and applying the normalization formula.
+vector<vector<double>> normalization(vector<vector<double>> dataSet) { 
+    //initial max and min. 
+    double max; 
+    double min;
+
+    // for loop increments column.
+    for (int i = 1; i <= 10; ++i) {
+        // initialize the max and min to the first value in the feature dataset.
+        max = dataSet[0][i];
+        min = dataSet[0][i];
+        cout << i << ". " << endl;
+        
+        // for loop increments rows. 
+        for (int k = 0; k < dataSet.size(); k++) {
+            // find the min and max in feature data set.  
+            if (dataSet[k][i] > max) {
+                max = dataSet[k][i];
+            }
+            if (dataSet[k][i] < min) { 
+                min = dataSet[k][i];
+            }
+        }
+        // using the min and max, use normalization formula 
+        // https://www.wallstreetmojo.com/normalization-formula/
+        for (int k = 0; k < dataSet.size(); k++) {
+            if (max != min) {
+                dataSet[k][i] = (dataSet[k][i] - min) / (max - min);
+            } else {
+                dataSet[k][i] = 0; 
+            }
+        }
+    } 
+    return dataSet;
 }
