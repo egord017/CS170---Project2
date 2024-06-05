@@ -264,7 +264,7 @@ double validator(vector<int> featureSubset, vector<vector<double>> dataSet){
 
         //create a copy dataset with the testInstance row removed
         vector<vector<double>> leaveOneOutDataSet = dataSet;
-        leaveOneOutDataSet.erase(dataSet.begin()+i);
+        leaveOneOutDataSet.erase(leaveOneOutDataSet.begin()+i);
 
         //gets the predicted class of the leaveOneOut dataset
         Classifier leaveOneOut(leaveOneOutDataSet);

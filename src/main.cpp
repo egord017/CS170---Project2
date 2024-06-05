@@ -68,6 +68,7 @@ int main() {
         cout << endl;
     }
 
+    
     double nnAccuracy = validator(featureSubset, normalizedData);
     cout << "Nearest Neighbor Accuracy: " << nnAccuracy << endl;
 
