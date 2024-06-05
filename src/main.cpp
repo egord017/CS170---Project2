@@ -55,7 +55,7 @@ int main() {
     }
     else if(userChoice == 3){
         cout << "Please enter each feature (enter 0 to stop):" << endl;
-        int input;
+        int input = -1;
         while(input != 0){
             cin >> input;
             if(input == 0){
