@@ -18,7 +18,7 @@ private:
 public:
     Classifier (vector<vector<double>> trainSet){this->trainSet = trainSet;}; //This is eht train function since this is a class
     // void Train(vector<vector<double>> trainSet); 
-    int Test(vector<double> testInstance); //returns the predicted class label of testInstance; is the n.n. alg
+    int test(vector<double> testInstance, vector<int> featureSubset); //returns the predicted class label of testInstance; is the n.n. alg
 };
 
 double evaluation();
@@ -29,6 +29,6 @@ set<int> forwardSelection(int features);
 double validator(vector<int> featureSubset, vector<vector<double>> dataSet);
 
 vector<vector<double>> normalization(vector<vector<double>> dataSet);
-// double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features);
-double calculateEuclidDistance(vector<double>& training, vector<double>& testing);
+double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features);
+//double calculateEuclidDistance(vector<double>& training, vector<double>& testing);
 #endif

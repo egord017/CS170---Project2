@@ -89,7 +89,6 @@ vector<int> backwardElimination(int features)
                 cout << "\n\n";
             }
         }
-        return best_overall_features;
     }
 
     cout << "\nFinished search!! The best feature subset is {";
@@ -99,6 +98,8 @@ vector<int> backwardElimination(int features)
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
     cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy << "%\n\n";
+    
+    return best_overall_features;
 }
 
 
@@ -194,14 +195,14 @@ set<int> forwardSelection(int features)
 //     } 
 // }
 
-int Classifier::Test(vector<double> testInstance) {
+int Classifier::test(vector<double> testInstance, vector<int> featureSubset) {
 
     int classLabel = 0;
     double currentDist = 0;
     double nearestDist = DBL_MAX; //starting at max double val since we want smallest dist
 
    for (int i = 0; i < this->trainSet.size(); i++){
-        double currentDist = calculateEuclidDistance(this->trainSet[i], testInstance); //get distance
+        double currentDist = calculateEuclidDistance(this->trainSet[i], testInstance, featureSubset); //get distance
 
         if (currentDist < nearestDist){
             nearestDist = currentDist;
@@ -254,17 +255,36 @@ vector<vector<double>> normalization(vector<vector<double>> dataSet) {
 }
 
 double validator(vector<int> featureSubset, vector<vector<double>> dataSet){
+    int correct = 0;
 
+    for(int i = 0; i < dataSet.size(); i++){
+        vector<double> testInstance = dataSet.at(i);
+        int expectedClass = testInstance.at(0);
+
+        //create a copy dataset with the testInstance row removed
+        vector<vector<double>> leaveOneOutDataSet = dataSet;
+        leaveOneOutDataSet.erase(dataSet.begin()+i);
+
+        //gets the predicted class of the leaveOneOut dataset
+        Classifier leaveOneOut(leaveOneOutDataSet);
+        int predictedClass = leaveOneOut.test(testInstance, featureSubset);
+
+        if(predictedClass == expectedClass){
+            correct++;
+        }
+    }
+
+    return static_cast<double>(correct)/dataSet.size();
 }
 
 //takes the data points for the features the user selects and finds the euclidean distance
-double calculateEuclidDistance(vector<double>& training, vector<double>& testing /*, vector<int>& features*/) 
+double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features) 
 {
     double sum = 0.0;
     double diff = 0.0;
-    for(int i = 0; i < testing.size(); i++) //iterates through each of the selected feature columns
+    for(int i = 0; i < features.size(); i++) //iterates through each of the selected feature columns
     {
-        diff = training[i] - testing[i]; // Ex.) x1 -x2
+        diff = training[features[i]] - testing[features[i]]; // Ex.) x1 -x2
         sum += diff * diff; // Ex.) (x1 -x2)^2
     }
     return sqrt(sum); //gets the square root of the sum   

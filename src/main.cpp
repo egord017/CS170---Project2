@@ -26,7 +26,7 @@ int main() {
     cout << "Type the number of the algorithm you want to run(1-3): \n";
     cout << "1. Forward Selection \n";
     cout << "2. Backward Elimination \n";
-    cout << "3. Special Alogrithm \n";
+    cout << "3. Choose your own features \n";
     do{
         cin >> userChoice;
         if(cin.fail()){
@@ -37,41 +37,57 @@ int main() {
         }
         
 
-    } while(userChoice != 1 && userChoice !=2 && userChoice != 3 && userChoice != 4);
+    } while(userChoice != 1 && userChoice !=2 && userChoice !=3);
     cout << " \n\n\n";
 
+
+    vector<int> featureSubset;
     if(userChoice == 1)
     {
-        forwardSelection(userInput);
+        //featureSubset = forwardSelection(userInput);  uncomment when forwardSelection is replaced to vector instead of set
+        //and delete the lines below
+        cout << "Not working atm" << endl;
+        return 0;
     }
     else if(userChoice == 2)
     {
-        backwardElimination(userInput);
+        featureSubset = backwardElimination(userInput);
     }
-    else if (userChoice == 3) 
-    {
-        vector <double> test;
-        double x;
-        cout << "Please enter test instance, separate feature values by space (ex: 0.1 0.6 0.7): ";
+    else if(userChoice == 3){
+        cout << "Please enter each feature (enter 0 to stop):" << endl;
+        int input;
+        while(input != 0){
+            cin >> input;
+            if(input == 0){
+                cout << "Finished making feature set:" << endl;
+            }
+            else{
+                featureSubset.push_back(input);
+            }
+        }
+        for(int i = 0; i < featureSubset.size(); i++){
+                cout << featureSubset[i] << " ";
+        }
+        cout << endl;
+    }
+
+    double nnAccuracy = validator(featureSubset, normalizedData);
+    cout << "Nearest Neighbor Accuracy: " << nnAccuracy << endl;
+
+
+    vector <double> test;
+    double x;
+    cout << "Please enter test instance, separate feature values by space (ex: 0.1 0.6 0.7): ";
         // while (cin >> in) {
         //     test.push_back(in);
         // }
-        for(int i = 0; i < userInput; i++){
-            cin >> x;
-            test.push_back(x);
-        }
-
-        Classifier c = Classifier(normalizedData); //This is the Train method
-        c.Test(test);
-    } 
-    else if (userChoice == 4) 
-    {
-        normalization(normalizedData);
-    } 
-    else 
-    { 
-
+    for(int i = 0; i < userInput; i++){
+        cin >> x;
+        test.push_back(x);
     }
+
+    Classifier nn = Classifier(normalizedData); //This is the Train method
+    nn.test(test, featureSubset);
 
     return 0;
 }
