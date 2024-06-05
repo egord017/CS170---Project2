@@ -104,28 +104,29 @@ vector<int> backwardElimination(int features)
 
 
 
-set<int> forwardSelection(int features)
+vector<int> forwardSelection(int features)
 {
     cout << "Forward Selection Search \n---------------------------\n";
-    set<int> selected_features; //used set but could probably change it to vector if needed, uses begin() and end()
+    vector<int> selected_features; 
     double best_overall_accuracy = 0.0; //keeps track of highest accuracy %
-    set<int> best_overall_features; //keeps track of best feature set {}
+    vector<int> best_overall_features; //keeps track of best feature set {}
 
     cout << "Using no features and \"random\" evaluation, I get an accuracy of: "; //basic output stuff for trace
     cout << fixed << setprecision(1) << evaluation() << "%\n\nBeginning search.\n\n";
 
     for (int i = 0; i < features; i++) //loops through the features the user Inputes
     {
-        set<int> current_best_features = selected_features;
+        vector<int> current_best_features = selected_features;
         double current_best_accuracy = 0.0;
         int feature;
 
         for (feature = 1; feature <= features; feature++) //finds the best feature set
         {
-            if (selected_features.find(feature) == selected_features.end()) //makes sure there arent duplicates in selected_features
+            if(find(selected_features.begin(), selected_features.end(), feature) == selected_features.end()) //makes sure there arent duplicates in selected_features
             {
-                set<int> new_features = selected_features; //creates new feature set with the new feature. Ex.) {1} -> {1,3}
-                new_features.insert(feature);
+                vector<int> new_features = selected_features; //creates new feature set with the new feature. Ex.) {1} -> {1,3}
+                new_features.push_back(feature);
+                sort(new_features.begin(), new_features.end());
                 
                 double accuracy = evaluation(); //doing the random accuracy
                 cout << "\t Using feature(s) {";

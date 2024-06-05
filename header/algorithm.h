@@ -23,7 +23,7 @@ public:
 
 double evaluation();
 vector<int> backwardElimination(int features);
-set<int> forwardSelection(int features);
+vector<int> forwardSelection(int features);
 
 // void nearestNeighbor(vector<vector<double>> dataSet);
 double validator(vector<int> featureSubset, vector<vector<double>> dataSet);

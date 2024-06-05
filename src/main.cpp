@@ -44,10 +44,7 @@ int main() {
     vector<int> featureSubset;
     if(userChoice == 1)
     {
-        //featureSubset = forwardSelection(userInput);  uncomment when forwardSelection is replaced to vector instead of set
-        //and delete the lines below
-        cout << "Not working atm" << endl;
-        return 0;
+        featureSubset = forwardSelection(userInput);  
     }
     else if(userChoice == 2)
     {
