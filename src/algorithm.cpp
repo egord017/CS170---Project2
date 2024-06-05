@@ -9,7 +9,7 @@ double evaluation() {
     return dis(gen);
 }
 
-void backwardElimination(int features) 
+vector<int> backwardElimination(int features) 
 {
     cout << "Backward Elimination Search \n------------------------------\n";
     vector<int> selected_features; //vector to hold the current features
@@ -89,6 +89,7 @@ void backwardElimination(int features)
                 cout << "\n\n";
             }
         }
+        return best_overall_features;
     }
 
     cout << "\nFinished search!! The best feature subset is {";
@@ -102,7 +103,7 @@ void backwardElimination(int features)
 
 
 
-void forwardSelection(int features)
+set<int> forwardSelection(int features)
 {
     cout << "Forward Selection Search \n---------------------------\n";
     set<int> selected_features; //used set but could probably change it to vector if needed, uses begin() and end()
@@ -178,6 +179,7 @@ void forwardSelection(int features)
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
     cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy << "%\n\n";
+    return best_overall_features;
 }
 
 
@@ -249,6 +251,10 @@ vector<vector<double>> normalization(vector<vector<double>> dataSet) {
         }
     } 
     return dataSet;
+}
+
+double validator(vector<int> featureSubset, vector<vector<double>> dataSet){
+
 }
 
 //takes the data points for the features the user selects and finds the euclidean distance

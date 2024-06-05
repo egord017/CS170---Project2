@@ -22,11 +22,11 @@ public:
 };
 
 double evaluation();
-void backwardElimination(int features);
-void forwardSelection(int features);
+vector<int> backwardElimination(int features);
+set<int> forwardSelection(int features);
 
 // void nearestNeighbor(vector<vector<double>> dataSet);
-void validator();
+double validator(vector<int> featureSubset, vector<vector<double>> dataSet);
 
 vector<vector<double>> normalization(vector<vector<double>> dataSet);
 // double calculateEuclidDistance(vector<double>& training, vector<double>& testing, vector<int>& features);
