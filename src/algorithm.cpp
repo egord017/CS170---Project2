@@ -221,36 +221,41 @@ int Classifier::test(vector<double> testInstance, vector<int> featureSubset) {
 // function "converts" values in each feature within the range of 0 and 1.
 // this is done first by finding the min and max values in the feature set and applying the normalization formula.
 vector<vector<double>> normalization(vector<vector<double>> dataSet) { 
-    //initial max and min. 
-    double max; 
-    double min;
-
+   
     // for loop increments column.
     for (int i = 1; i <= 10; ++i) {
-        // initialize the max and min to the first value in the feature dataset.
-        max = dataSet[0][i];
-        min = dataSet[0][i];
-        //cout << i << ". " << endl;
-        
-        // for loop increments rows. 
-        for (int k = 0; k < dataSet.size(); k++) {
-            // find the min and max in feature data set.  
-            if (dataSet[k][i] > max) {
-                max = dataSet[k][i];
+
+        double sum = 0;
+        double summationStd = 0;
+
+        //calculate sum and sum of squares
+        for (int j = 0; j < dataSet.size(); j++){
+            // sumSquare += pow(dataSet[j][i], 2);
+            sum += dataSet[j][i];
+        }
+        //calc mean
+        double mean = sum / dataSet.size();
+
+        //calc std
+        for(int j = 0; j < dataSet.size(); j++){
+            double temp = dataSet[j][i] - mean;
+            summationStd += pow(temp,2);
+        }
+    
+        double temp = summationStd/dataSet.size();
+        double std = sqrt(temp);
+
+ 
+        //normalize
+        for(int j = 0; j < dataSet.size(); j++){
+            if(std != 0){
+                dataSet[j][i] = (dataSet[j][i] - mean) / std;
             }
-            if (dataSet[k][i] < min) { 
-                min = dataSet[k][i];
+            else{
+                dataSet[j][i] = 0;
             }
         }
-        // using the min and max, use normalization formula 
-        // https://www.wallstreetmojo.com/normalization-formula/
-        for (int k = 0; k < dataSet.size(); k++) {
-            if (max != min) {
-                dataSet[k][i] = (dataSet[k][i] - min) / (max - min);
-            } else {
-                dataSet[k][i] = 0; 
-            }
-        }
+
     } 
     return dataSet;
 }

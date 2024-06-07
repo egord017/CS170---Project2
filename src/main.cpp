@@ -9,7 +9,8 @@ int main() {
     
     std::vector<double> accuracy;
 
-    string file = "./txt/small-test-dataset.txt";
+    // string file = "./txt/small-test-dataset.txt";
+    string file = "./txt/large-test-dataset.txt";
     vector<vector<double>> dataSet = getData(file);
 
     //first normalize the dataset.
