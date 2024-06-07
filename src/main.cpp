@@ -8,19 +8,51 @@ vector<vector<double>> getData(string& filename);
 int main() {
     
     std::vector<double> accuracy;
+    int userInput; 
+    string file;
 
-    // string file = "./txt/small-test-dataset.txt";
-    string file = "./txt/large-test-dataset.txt";
-    vector<vector<double>> dataSet = getData(file);
+    //ask user for what file they want to run
+    cout << "\n\nWelcome to the Feature Selection Algorithm \n";
+    cout << "-------------------------------------------\n";
+    cout << "Which file would you like to test? (enter 1-4)\n";
+    cout << "1. small-test-dataset from phase 2\n";
+    cout << "2. large-test-dataset from phase 2\n";
+    cout << "3. personal small-test-dataset #43\n";
+    cout << "4. pesonal large-test-dataset  #43\n";
+    
+    
+    do{
+        cin >> userInput;
+        if(cin.fail()){
+            cout << "\nEnter a number between 1-4:\n";
+            cin.clear();
+            cin.ignore(10000 , '\n');
+        }
 
+        if(userInput > 4 || userInput <=0){
+            cout << "\nEnter a number between 1-4:\n";
+        }
+
+        
+    } while(userInput <= 0 || userInput >4);
+
+
+    switch(userInput){
+        case 1: file = "./txt/small-test-dataset.txt"; break;
+        case 2: file = "./txt/large-test-dataset.txt"; break;
+        case 3: file = "./txt/CS170_Spring_2024_Small_data__43.txt"; break;
+        case 4: file = "./txt/CS170_Spring_2024_Large_data__43.txt"; break;
+    }
+
+   
     //first normalize the dataset.
+    vector<vector<double>> dataSet = getData(file);
     vector<vector<double>> normalizedData = normalization(dataSet);//use normalized data 
 
-    int userInput; 
-    cout << "Welcome to the Feature Selection Algorithm \n";
-    cout << "Please enter total number of features: ";
-    cin >> userInput;
+  
     cout << " \n";
+    //testing
+    //  cout << file << endl; 
 
 
     int userChoice;
@@ -74,19 +106,19 @@ int main() {
     cout << "Nearest Neighbor Accuracy: " << nnAccuracy << endl;
 
 
-    vector <double> test;
-    double x;
-    cout << "Please enter test instance, separate feature values by space (ex: 0.1 0.6 0.7): ";
-        // while (cin >> in) {
-        //     test.push_back(in);
-        // }
-    for(int i = 0; i < userInput; i++){
-        cin >> x;
-        test.push_back(x);
-    }
+    // vector <double> test;
+    // double x;
+    // cout << "Please enter test instance, separate feature values by space (ex: 0.1 0.6 0.7): ";
+    //     // while (cin >> in) {
+    //     //     test.push_back(in);
+    //     // }
+    // for(int i = 0; i < userInput; i++){
+    //     cin >> x;
+    //     test.push_back(x);
+    // }
 
-    Classifier nn = Classifier(normalizedData); //This is the Train method
-    nn.test(test, featureSubset);
+    // Classifier nn = Classifier(normalizedData); //This is the Train method
+    // nn.test(test, featureSubset);
 
     return 0;
 }

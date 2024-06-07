@@ -186,16 +186,6 @@ vector<int> forwardSelection(int features)
 
 
 
-// void nearestNeighbor(vector<vector<double>> dataSet) {
-//     //vector<int> features = {3,5,7};
-    
-//     for(int i = 0; i < dataSet.size(); i++) { 
-//         for (int k = 0; k < dataSet[i].size(); k++) { 
-//             cout << dataSet[i][k] <<  endl;
-//         }
-//     } 
-// }
-
 int Classifier::test(vector<double> testInstance, vector<int> featureSubset) {
 
     int classLabel = 0;
@@ -208,11 +198,11 @@ int Classifier::test(vector<double> testInstance, vector<int> featureSubset) {
         if (currentDist < nearestDist){
             nearestDist = currentDist;
             classLabel = this->trainSet[i][0];
-            cout << "current shortest distance between TrainingSet ["<< i << "] and TestInstance is " << currentDist  << " with class label " << classLabel << " for trainingSet[i] "<< endl; 
+            cout << "current shortest distance between TrainingSet ["<< i << "] with class label " << classLabel << "and the TestInstance is " << currentDist << endl; 
         }
    }
 
-    cout << "Final predicted class label for test instance is " << classLabel << endl;
+    cout << "\nFinal predicted class label for test instance is " << classLabel << endl;
     return classLabel;
 }
 
