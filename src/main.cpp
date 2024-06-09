@@ -4,12 +4,14 @@
 #include <sstream>
 
 vector<vector<double>> getData(string& filename);
+int numFeatures(vector<vector<double>> dataSet);
 
 int main() {
     
     std::vector<double> accuracy;
     int userInput; 
     string file;
+    int features;
 
     //ask user for what file they want to run
     cout << "\n\nWelcome to the Feature Selection Algorithm \n";
@@ -44,10 +46,13 @@ int main() {
         case 4: file = "./txt/CS170_Spring_2024_Large_data__43.txt"; break;
     }
 
-   
+
     //first normalize the dataset.
     vector<vector<double>> dataSet = getData(file);
     vector<vector<double>> normalizedData = normalization(dataSet);//use normalized data 
+
+    //get number of features in the dataset
+    features = numFeatures(normalizedData);
 
   
     cout << " \n";
@@ -77,11 +82,11 @@ int main() {
     vector<int> featureSubset;
     if(userChoice == 1)
     {
-        featureSubset = forwardSelection(userInput);  
+        featureSubset = forwardSelection(features, normalizedData);  
     }
     else if(userChoice == 2)
     {
-        featureSubset = backwardElimination(userInput);
+        featureSubset = backwardElimination(features, normalizedData);
     }
     else if(userChoice == 3){
         cout << "Please enter each feature (enter 0 to stop):" << endl;
@@ -100,11 +105,6 @@ int main() {
         }
         cout << endl;
     }
-
-    
-    double nnAccuracy = validator(featureSubset, normalizedData);
-    cout << "Nearest Neighbor Accuracy: " << nnAccuracy << endl;
-
 
     // vector <double> test;
     // double x;
@@ -145,4 +145,8 @@ vector<vector<double>> getData(string& filename){
 
     file.close();
     return data;
+}
+
+int numFeatures(vector<vector<double>> dataSet){
+    return dataSet[0].size()-1;
 }

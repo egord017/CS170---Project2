@@ -21,8 +21,8 @@ public:
 };
 
 double evaluation();
-vector<int> backwardElimination(int features);
-vector<int> forwardSelection(int features);
+vector<int> backwardElimination(int features, vector<vector<double>> dataSet);
+vector<int> forwardSelection(int features, vector<vector<double>> dataSet);
 
 double validator(vector<int> featureSubset, vector<vector<double>> dataSet);
 

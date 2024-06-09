@@ -2,6 +2,7 @@
 #include <float.h>
 using namespace std;
 
+//this function is no longer needed
 double evaluation() {
     random_device rd;
     mt19937 gen(rd());
@@ -9,7 +10,7 @@ double evaluation() {
     return dis(gen);
 }
 
-vector<int> backwardElimination(int features) 
+vector<int> backwardElimination(int features, vector<vector<double>> dataSet) 
 {
     cout << "Backward Elimination Search \n------------------------------\n";
     vector<int> selected_features; //vector to hold the current features
@@ -21,10 +22,10 @@ vector<int> backwardElimination(int features)
         selected_features.push_back(i);
     }
 
-    cout << "Using all features and \"random\" evaluation, I get an accuracy of: ";
-    cout << fixed << setprecision(1) << evaluation() << "%\n\nBeginning search.\n\n";
+    cout << "Using all features and LeaveOneOut evaluation, I get an accuracy of: ";
+    cout << fixed << setprecision(1) << validator(selected_features, dataSet) * 100 << "%\n\nBeginning search.\n\n";
 
-    best_overall_accuracy = evaluation();
+    best_overall_accuracy = validator(selected_features, dataSet);
     best_overall_features = selected_features;
 
     for (int i = 0; i < features; i++)  
@@ -47,14 +48,14 @@ vector<int> backwardElimination(int features)
                 continue;
             }
 
-            double accuracy = evaluation();
+            double accuracy = validator(new_features, dataSet);
             cout << "\tUsing feature(s) {";
             for (auto iterate = new_features.begin(); iterate != new_features.end(); ++iterate) 
             {
                 cout << *iterate;
                 if (next(iterate) != new_features.end()) cout << ",";
             }
-            cout << "} accuracy is " << fixed << setprecision(1) << accuracy << "%\n";
+            cout << "} accuracy is " << fixed << setprecision(1) << accuracy * 100 << "%\n";
 
             if (accuracy > current_best_accuracy) //updates and tracks the current best feature
             {
@@ -79,7 +80,7 @@ vector<int> backwardElimination(int features)
                 cout << *iterate;
                 if (next(iterate) != selected_features.end()) cout << ",";
             }
-            cout << "} was best, accuracy is " << fixed << setprecision(1) << current_best_accuracy << "%";
+            cout << "} was best, accuracy is " << fixed << setprecision(1) << current_best_accuracy * 100 << "%";
 
             if (current_best_accuracy < best_overall_accuracy) //warning message for accuracy decreasing
             {
@@ -97,22 +98,22 @@ vector<int> backwardElimination(int features)
         cout << *iterate;
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
-    cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy << "%\n\n";
+    cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy * 100 << "%\n\n";
     
     return best_overall_features;
 }
 
 
 
-vector<int> forwardSelection(int features)
+vector<int> forwardSelection(int features, vector<vector<double>> dataSet)
 {
     cout << "Forward Selection Search \n---------------------------\n";
     vector<int> selected_features; 
     double best_overall_accuracy = 0.0; //keeps track of highest accuracy %
     vector<int> best_overall_features; //keeps track of best feature set {}
 
-    cout << "Using no features and \"random\" evaluation, I get an accuracy of: "; //basic output stuff for trace
-    cout << fixed << setprecision(1) << evaluation() << "%\n\nBeginning search.\n\n";
+    cout << "Using no features and LeaveOneOut evaluation, I get an accuracy of: "; //basic output stuff for trace
+    cout << fixed << setprecision(1) << validator(selected_features, dataSet) * 100 << "%\n\nBeginning search.\n\n";
 
     for (int i = 0; i < features; i++) //loops through the features the user Inputes
     {
@@ -128,14 +129,14 @@ vector<int> forwardSelection(int features)
                 new_features.push_back(feature);
                 sort(new_features.begin(), new_features.end());
                 
-                double accuracy = evaluation(); //doing the random accuracy
+                double accuracy = validator(new_features, dataSet); //using leave one out validator
                 cout << "\t Using feature(s) {";
                 for (auto iterate = new_features.begin(); iterate != new_features.end(); iterate++) //auto automatically finds the type
                 {
                     cout << *iterate; //prints the set ex.) {1}, {2}
                     if (next(iterate) != new_features.end()) cout << ","; //checks to see if there are more elements to print
                 }
-                cout << "} accuracy is " << fixed << setprecision(1) << accuracy << "%\n";
+                cout << "} accuracy is " << fixed << setprecision(1) << accuracy * 100 << "%\n";
 
                 if (accuracy > current_best_accuracy) //updates the current best accuracy
                 {
@@ -161,7 +162,7 @@ vector<int> forwardSelection(int features)
         }
 
         cout << "} was best, accuracy is " ;
-        cout << fixed << setprecision(1) << current_best_accuracy << "%"; //outputs the above sets' accuracy percentage
+        cout << fixed << setprecision(1) << current_best_accuracy * 100 << "%"; //outputs the above sets' accuracy percentage
 
         if(current_best_accuracy < best_overall_accuracy) //conditional print statements for if there is an accuracy decrease. mostly just to match the trace formatting
         {
@@ -180,7 +181,7 @@ vector<int> forwardSelection(int features)
         cout << *iterate;
         if (next(iterate) != best_overall_features.end()) cout << ",";
     }
-    cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy << "%\n\n";
+    cout << "}, which has an accuracy of " << fixed << setprecision(1) << best_overall_accuracy * 100 << "%\n\n";
     return best_overall_features;
 }
 
@@ -198,11 +199,11 @@ int Classifier::test(vector<double> testInstance, vector<int> featureSubset) {
         if (currentDist < nearestDist){
             nearestDist = currentDist;
             classLabel = this->trainSet[i][0];
-            cout << "current shortest distance between TrainingSet ["<< i << "] with class label " << classLabel << "and the TestInstance is " << currentDist << endl; 
+            //cout << "current shortest distance between TrainingSet ["<< i << "] with class label " << classLabel << "and the TestInstance is " << currentDist << endl; 
         }
    }
 
-    cout << "\nFinal predicted class label for test instance is " << classLabel << endl;
+    //cout << "\nFinal predicted class label for test instance is " << classLabel << endl;
     return classLabel;
 }
 
@@ -270,7 +271,7 @@ double validator(vector<int> featureSubset, vector<vector<double>> dataSet){
         }
     }
 
-    return static_cast<double>(correct)/dataSet.size();
+    return static_cast<double>(correct)/static_cast<double>(dataSet.size());
 }
 
 //takes the data points for the features the user selects and finds the euclidean distance
